@@ -112,11 +112,11 @@ to write parsers, each has it's own advantages and disadvantages, for our first
 parser we'll use the easiest to implement, and also the most commonly used, 
 it's called a Recursive Descent Parser, according to Wikipedia:
 
-    In computer science, a recursive descent parser is a kind of top-down
-    parser built from a set of mutually recursive procedures (or a 
-    non-recursive equivalent) where each such procedure usually implements one
-    of the production rules of the grammar. Thus the structure of the resulting
-    program closely mirrors that of the grammar it recognizes.
+ > In computer science, a recursive descent parser is a kind of top-down
+ > parser built from a set of mutually recursive procedures (or a 
+ > non-recursive equivalent) where each such procedure usually implements one
+ > of the production rules of the grammar. Thus the structure of the resulting
+ > program closely mirrors that of the grammar it recognizes.
 
 A Recursive Descent Parser is just a bunch of functions which might call 
 themselves, and each function is in charge of recognizing a rule in a 
