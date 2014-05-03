@@ -50,7 +50,7 @@ a toy language called URY which has a syntax similar to Ruby. All the code
 we'll write will be in Javascript, as it's the most popular language in Github
 and I want a lot of people to understand this!
 
-## Installing tools
+## Installing Node
 
 As we'll be using Javascript we need to install Node! If you are using Linux 
 it's as easy as use your package manager, for example Ubuntu/Debian users can 
