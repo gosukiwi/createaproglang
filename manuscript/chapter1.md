@@ -47,28 +47,53 @@ of computer science theory behind it.
 
 In the following chapters we'll dive onto each of the steps and implement
 a toy language called URY which has a syntax similar to Ruby. All the code
-we'll write will be in Javascript and Ruby, as they are the most popular 
-languages in Github and I want a lot of people to understand this!
+we'll write will be in Javascript, as it's the most popular language in Github
+and I want a lot of people to understand this!
 
 ## Installing tools
 
-As we'll be using Javascript and Ruby we need to install them! If you are using
-Linux it's as easy as use your package manager, for example Ubuntu/Debian users
-can do
+As we'll be using Javascript we need to install Node! If you are using Linux 
+it's as easy as use your package manager, for example Ubuntu/Debian users can 
+do
 
-    sudo apt-get install node ruby
+    sudo apt-get install node
 
-And we'll be just fine. If you have a Mac you can use Brew to do so.
+And you'll be just fine. If you really want to you can install it from source,
+which isn't as hard really. If you do choose to install from source it's 
+recommended to install it in your home directory so you don't need to use
+`sudo` to install npm packages, a lot of people don't like to give `npm` admin
+permission. The following is a generic way to install node in your user folder 
+which should work in every Linux distro, it installs into `/home/<user>/.node`
+
+    wget http://nodejs.org/dist/v0.10.28/node-v0.10.28.tar.gz
+    tar -xvzf node-v0.10.28.tar.gz
+    cd node-v0.10.28
+    ./configure --prefix=~/.node && make && make install
+
+And that's it! Now all you have to do is add it to your `PATH`, which you
+can easily do by appending this to your `.bashrc` file
+
+    export PATH=$HOME/.node/bin:$PATH
+
+If you have a Mac you can also install it from source as specified above or
+use [Homebrew](http://brew.sh/), if you do decide to use Homebrew all you need
+to run is
   
-    brew install node ruby
+    brew install node
     
 On windows this gets trickier, but it's still quite easy, in the traditional
-way, just download the setups and run them, or you can use [Chocolatey](https://chocolatey.org/)!
-You can now do
+way, just download the [Node installer](http://nodejs.org/download/) 
+and execute it, __or__ you can use [Chocolatey](https://chocolatey.org/) and 
+do
 
-    cinst node ruby
+    cinst node
 
-And that's it! I assume you have a text editor already, but if you don't I
-recommend Textmate on OSX, Gedit on Linux and Notepad++ on Windows. Personally
-I use Vim.
+And that's it! The method you choose is up to you.
 
+We'll also need a text editor, which I assume you have already, but if you 
+don't I recommend [Sublime Text](http://www.sublimetext.com/), it's potent, 
+works nicely out of the box, has a bunch of plugins and it's easy to configure, 
+it even works on Windows, Linux and Mac!
+
+Personally I use [Vim](http://www.vim.org/), if you are up for a challenge I 
+suggest checking it out! It's worth every second you spend learning it.
