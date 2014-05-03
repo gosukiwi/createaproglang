@@ -52,20 +52,21 @@ and I want a lot of people to understand this!
 
 ## Installing Node
 
-As we'll be using Javascript we need to install Node! If you are using Linux 
-it's as easy as use your package manager, for example Ubuntu/Debian users can 
-do
+As we'll be using Javascript to create our little language we need to install 
+Node! If you are using Linux it's as easy as use your package manager, for 
+example Ubuntu/Debian users can just run
 
     sudo apt-get install node
 
-And you'll be just fine. If you really want to you can install it from source,
-which isn't as hard really. If you do choose to install from source it's 
-recommended to install it in your home directory so you don't need to use
+And see you later aligator! If you really want to though, you can install it 
+from source, which isn't hard really. If you do choose to install from source 
+it's recommended to install it in your home directory so you don't need to use
 `sudo` to install npm packages, a lot of people don't like to give `npm` admin
-permission. The following is a generic way to install node in your user folder 
-which should work in every Linux distro, it installs into `/home/<user>/.node`
+permission! The following is a generic way to install node in your user folder 
+which should work in every Linux distro and even on OSX, it installs into
+`/home/<user>/.node`
 
-    wget http://nodejs.org/dist/v0.10.28/node-v0.10.28.tar.gz
+    wget http://nodejs.org/dist/v0.10.28/node-v0.10.28.tar.gz # change this depending on the latest node version!
     tar -xvzf node-v0.10.28.tar.gz
     cd node-v0.10.28
     ./configure --prefix=~/.node && make && make install
@@ -75,25 +76,24 @@ can easily do by appending this to your `.bashrc` file
 
     export PATH=$HOME/.node/bin:$PATH
 
-If you have a Mac you can also install it from source as specified above or
-use [Homebrew](http://brew.sh/), if you do decide to use Homebrew all you need
-to run is
-  
+If you have a Mac and don't want to install from source you can simply use
+[Homebrew](http://brew.sh/) and just run
+
     brew install node
     
-On windows this gets trickier, but it's still quite easy, in the traditional
-way, just download the [Node installer](http://nodejs.org/download/) 
-and execute it, __or__ you can use [Chocolatey](https://chocolatey.org/) and 
-do
+On windows this gets a bit messy, but it's still quite easy, as with all Window
+apps just download the [Node installer](http://nodejs.org/download/) 
+and execute it... __Or__ you can use [Chocolatey](https://chocolatey.org/) and 
+run
 
     cinst node
 
 And that's it! The method you choose is up to you.
 
-We'll also need a text editor, which I assume you have already, but if you 
-don't I recommend [Sublime Text](http://www.sublimetext.com/), it's potent, 
-works nicely out of the box, has a bunch of plugins and it's easy to configure, 
-it even works on Windows, Linux and Mac!
+Once you have node we'll need a text editor, which I assume you have already, 
+but if you don't I recommend [Sublime Text](http://www.sublimetext.com/), 
+it's potent, works nicely out of the box, has a bunch of plugins and it's easy 
+to configure, it even works on Windows, Linux and Mac!
 
 Personally I use [Vim](http://www.vim.org/), if you are up for a challenge I 
 suggest checking it out! It's worth every second you spend learning it.
