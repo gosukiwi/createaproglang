@@ -27,12 +27,7 @@ In this book I'll use both approaches eventually, but first I'll do everything
 from scratch, as it's good to know how stuff actually works!
 
 ## Writing a tokenizer for URY
-
-Let's get our hands dirty and create a tokenizer for URY! I'll create a file
-named `tokenizer.js` which will contain a function which takes a string as
-input and outputs a token array.
-
-First let's see how URY looks like
+Before jumping to our lovely text editor, let's see how URY looks like
 
     # comments use hashes
     # assignment
@@ -72,11 +67,11 @@ If we were to represent the input as tokens it'd look something like this
 Note that spaces and comments are omitted. The names are irrelevant, you can 
 name your tokens whatever you want.
 
-Some tokens are just strict string comparisons such as `def`, `if` and `end`,
-nevermind we'll need something a bit more powerful for identifiers and strings!
-In URY an identifier is a secuence of letters and numbers with no space, it 
-must start with a letter and it can contain underscores, the following are 
-valid identifiers
+We can easily match some tokens by just string comparisons, such as `def`, `if` 
+and `end`, nevertheless we'll need something a bit more powerful for 
+identifiers and strings! In URY an identifier is a secuence of letters and 
+numbers with no space, it must start with a letter and it can contain 
+underscores, the following are valid identifiers
 
     myVar
     var1
@@ -105,6 +100,12 @@ Strings are defined as anyting enclosed by quotes, the following are valid strin
 
     "My name is \"Mike\""
 
-A regular expression will do just fine to match identifier and strings. Now 
-that we have an idea on what tokens we'll look for and how to match them let's
-dive onto the code!
+A [regular expression](http://en.wikipedia.org/wiki/Regular_expression) will do
+just fine to match identifier and strings. If you don't know what regular 
+expressions are you can check out [MDN's documentation on Regular Expressions](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions),
+you can try your regular expressions in the browser using [Debuggex](https://www.debuggex.com/).
+
+Now that we have an idea on what tokens we'll look for and how to match them 
+let's get our hands dirty and create a tokenizer for URY! I'll create a file
+named `tokenizer.js` which will contain a function which takes a string as
+input and outputs a token array.
