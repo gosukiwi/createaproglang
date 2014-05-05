@@ -26,8 +26,9 @@ care of lexing __and__ parsing!
 In this book I'll use both approaches eventually, but first I'll do everything
 from scratch, as it's good to know how stuff actually works!
 
-## Writing a tokenizer for URY
-Before jumping to our lovely text editor, let's see how URY looks like
+## What we'll build
+Before jumping into our lovely text editor and start pumping code, let's see 
+how URY looks like
 
 ```ruby
 # comments use hashes
@@ -52,19 +53,19 @@ end
 
 If we were to represent the input as tokens it'd look something like this
 
-  IDENTIFIER EQUALS NUMBER
+    IDENTIFIER EQUALS NUMBER
 
-  DEF IDENTIFIER OPEN_PARENS IDENTIFIER COMMA IDENTIFIER CLOSE_PARENS
-  RETURN IDENTIFIER OPERATOR IDENTIFIER
-  END
+    DEF IDENTIFIER OPEN_PARENS IDENTIFIER COMMA IDENTIFIER CLOSE_PARENS
+    RETURN IDENTIFIER OPERATOR IDENTIFIER
+    END
 
-  IF IDENTIFIER IS NUMBER
-  IDENTIFIER STRING
-  END
+    IF IDENTIFIER IS NUMBER
+    IDENTIFIER STRING
+    END
 
-  WHILE IDENTIFIER OPERATOR NUMBER
-  IDENTIFIER EQUALS IDENTIFIER OPERATOR NUMBER
-  END
+    WHILE IDENTIFIER OPERATOR NUMBER
+    IDENTIFIER EQUALS IDENTIFIER OPERATOR NUMBER
+    END
 
 Note that spaces and comments are omitted. The names are irrelevant, you can 
 name your tokens whatever you want.
@@ -110,5 +111,160 @@ if you want to play around with them you can do so in the browser using
 
 Now that we have an idea on what tokens we'll look for and how to match them 
 let's get our hands dirty and create a tokenizer for URY! I'll create a file
-named `tokenizer.js` which will contain a function which takes a string as
-input and outputs a token array.
+named `tokenizer.js` somewhere in our file system, personally I'm working
+on `<user>/node/URY`, and as source code normally resides in a folder named 
+`src` I created such folder and put inside our `tokenizer.js` file, where
+you create the file is completely up to you but if you stick to the conventions
+used in this book it will be easier for you to follow along later on.
+
+All code in this book can be found in the [Github repository](https://github.com/gosukiwi/creatingaproglang-src),
+so if you get a weird error just download the code and do a diff, or just
+use my code! The idea is to give you a reference to check any possible errors 
+against. You will notice the repository also has a folder named `test`, as
+good developers we are we'll write unit tests for our code, which will live
+there. We'll use [Mocha](http://visionmedia.github.io/mocha/) as our testing 
+library, as it's lightweight and quite versatile, it allows you to use any
+assert library you choose, we'll just use Node's `assert` for this book.
+
+To get Mocha just run
+
+    npm install -g mocha
+
+And we're good to go! Let's start off by writing our tests first, inside
+`test/tokenizer.js` write a simple test case
+
+
+    /* global describe, it */
+    'use strict';
+
+    var assert = require('assert'),
+        Tokenizer = require('../src/tokenizer.js'),
+        tokenizer = new Tokenizer();
+
+    describe('Tokenizer', function () {
+        it('should tokenize identifiers', function () {
+            assert.deepEqual([
+                { 'NAME': 'IDENTIFIER', 'VALUE': 'name' },
+                { 'NAME': 'EQUAL', 'VALUE': '=' },
+                { 'NAME': 'STRING', 'VALUE': 'Mike' }
+            ], tokenizer.tokenize('name = "Mike"'));
+        });
+    });
+
+You can run the test with the command `mocha test/`, which will of course fail
+as we haven't done anything yet! Let's make this test pass! Write the following
+code inside `src/tokenizer.js` 
+
+
+    'use strict';
+
+    /* A token used by the tokenizer */
+    function Token(name, regex, filter) {
+        this.name = name;
+        this.regex = regex;
+        this.filter = filter;
+
+        // the length of the string this token consumes of the input string
+        // this is not the same as this.text.length as it applies to the match
+        // of the regular expression, the text can be filtered using this.filter
+        // thus changing the actual length of the match
+        this.length = 0;
+
+        // the matched text of this token once isMatched is called, with filter
+        // applied if defined
+        this.text = '';
+
+        // checks whether an string matches this token 
+        this.isMatch = function (str) {
+            var match = str.match(this.regex);
+
+            if(match) {
+                this.text = this.filter ? this.filter(match[0]) : match[0];
+                this.length = match[0].length;
+                return true;
+            }
+
+            return false;
+        };
+
+        // returns a plain javascript object representation of
+        // this token
+        this.plain = function () {
+            return {
+                'NAME': this.name,
+                'VALUE': this.text
+            };
+        };
+    }
+
+    /* Tokenizer object constructor */
+    function Tokenizer() {
+        this.tokens = [
+            // a string
+            new Token('STRING', '^"(?:[^\\"]|\\.)*"', function (str) {
+                return str.substr(1, str.length - 2);
+            }),
+            // an identifier
+            new Token('IDENTIFIER', '^[a-zA-Z][a-zA-Z0-9_]*'),
+            // an equal
+            new Token('EQUAL', '^='),
+            // a new line
+            new Token('NEWLINE', '^\n'),
+        ];
+
+        // these tokens are matched but are not added to our output
+        this.ignoredTokens = [
+            new Token('SPACE', '^ '),
+            new Token('TAB', '^\t'),
+            new Token('RETURN', '^\r'),
+        ];
+    }
+
+    Tokenizer.prototype.tokenize = function (input) {
+        var start = 0,
+            length = input.length,
+            output = [];
+
+        while(start < length) {
+            var str = input.substr(start),
+                matched = false;
+
+            // for each token defined create a regular expression for the token
+            for(var idx in this.tokens) {
+                var token = this.tokens[idx];
+                if(token.isMatch(str)) {
+                    output.push(token.plain());
+                    start += token.length;
+
+                    // turn on the matched flag
+                    matched = true;
+
+                    // we already found the token! stop trying
+                    break;
+                }
+            }
+
+            // we didn't match any token... try the ignored ones
+            if(!matched) {
+                for(idx in this.ignoredTokens) {
+                    var ignoredToken = this.ignoredTokens[idx];
+                    if(ignoredToken.isMatch(str)) {
+                        start += ignoredToken.length;
+                        matched = true;
+                        break;
+                    }
+                }
+            }
+
+            // we still haven't matched any? it's an error!
+            if(!matched) {
+                throw 'Could not match token for input ' + str;
+            }
+        }
+
+        return output;
+    };
+
+    module.exports = Tokenizer;
+
+Code! ...
