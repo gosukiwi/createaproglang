@@ -84,14 +84,14 @@ The following though are __invalid__ identifiers
     1var # must start with letter
     my var # cannot contain space
 
- > The definition of identifier is just something I came up with and it's pretty
- > common across the most popular programming languages, especially those which
- > syntax is derived from C, you can of course choose any rules to define your
- > identifiers, for example, you can let identifiers start with a number! That's
- > the beauty of creating your very own language! Remember though that changing 
- > something just for the sake of it makes it's not a good idea since users are
- > forced to learn new syntax and rules. That's why a lot of languages stick with 
- > a syntax similar to C or another popular language (such as Ruby or Python).
+The definition of identifier is just something I came up with and it's pretty
+common across the most popular programming languages, especially those which
+syntax is derived from C, you can of course choose any rules to define your
+identifiers, for example, you can let identifiers start with a number! That's
+the beauty of creating your very own language! Remember though that changing 
+something just for the sake of it makes it's not a good idea since users are
+forced to learn new syntax and rules. That's why a lot of languages stick with 
+a syntax similar to C or another popular language (such as Ruby or Python).
 
 Strings are defined as anyting enclosed by quotes, the following are valid strings
 
