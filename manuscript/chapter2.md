@@ -29,24 +29,26 @@ from scratch, as it's good to know how stuff actually works!
 ## Writing a tokenizer for URY
 Before jumping to our lovely text editor, let's see how URY looks like
 
-    # comments use hashes
-    # assignment
-    a = 2 
+```ruby
+# comments use hashes
+# assignment
+a = 2 
 
-    # function definition
-    def add(a, b)
-        return a + b
-    end
+# function definition
+def add(a, b)
+    return a + b
+end
 
-    # conditional
-    if a == 2
-        print "a is 2"
-    end
+# conditional
+if a == 2
+    print "a is 2"
+end
 
-    # while loop
-    while a < 5
-        a = a + 1
-    end
+# while loop
+while a < 5
+    a = a + 1
+end
+```
 
 If we were to represent the input as tokens it'd look something like this
 
