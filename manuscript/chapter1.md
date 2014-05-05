@@ -77,7 +77,7 @@ which should work in every Linux distro and even on OSX, it installs into
     ./configure --prefix=~/.node && make && make install
 
 And that's it! Now all you have to do is add it to your `PATH`, which you
-can easily do by appending this to your `.bashrc` file
+can easily do by appending this to your `.profile` or `.bashrc` file
 
     export PATH=$HOME/.node/bin:$PATH
 

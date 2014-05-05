@@ -105,7 +105,8 @@ Strings are defined as anyting enclosed by quotes, the following are valid strin
 A [regular expression](http://en.wikipedia.org/wiki/Regular_expression) will do
 just fine to match identifier and strings. If you don't know what regular 
 expressions are you can check out [MDN's documentation on Regular Expressions](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions),
-you can try your regular expressions in the browser using [Debuggex](https://www.debuggex.com/).
+if you want to play around with them you can do so in the browser using
+[Debuggex](https://www.debuggex.com/).
 
 Now that we have an idea on what tokens we'll look for and how to match them 
 let's get our hands dirty and create a tokenizer for URY! I'll create a file
