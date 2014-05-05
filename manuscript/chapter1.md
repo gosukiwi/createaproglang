@@ -14,6 +14,11 @@ basics of grammars, but don't worry! It will be short and painless.
 This book will give you a general overview of the development of a compiler,
 you are encouraged to dive deeper onto each step of the process.
 
+In this book we'll use Javascript, if you don't know Javascript don't worry,
+just check out [Eloquent Javascript](http://eloquentjavascript.net/) and come
+back to this book, we will just use vanilla Javascript so no need to learn
+jQuery, or any other library.
+
 ## The steps of writing a compiler
 
 Let's jump right into the subject and talk a bit about compilers. What is a 
