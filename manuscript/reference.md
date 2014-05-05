@@ -1,4 +1,4 @@
 # Reference
 
 Reference material used for this book
- * http://www.csd.uwo.ca/~moreno//CS447/Lectures/Syntax.html/node14.html
+ * http://www.cs.engr.uky.edu/~lewis/essays/compilers/rec-des.html
