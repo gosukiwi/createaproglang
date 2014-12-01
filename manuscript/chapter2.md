@@ -365,6 +365,12 @@ add a few more cases:
         ], tokenizer.tokenize('while true\nprint("HI!")\nend'));
     });
 
+We added quite some tests! The first one simply tests for a number token, the
+latter tests test the keywords of the language. The input string is valid URYB
+code, but it doesn't have to, as long as the tokens are valid the Tokenizer will
+generate a token array, it's the parser job to make sure they are in the right
+order and actually mean something.
+
 In order to pass these tests, let's add a bit more tokens to our tokenizer:
 
     /* Tokenizer constructor function */
