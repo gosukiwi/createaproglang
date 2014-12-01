@@ -6,8 +6,8 @@ in our language, the tokenizer then returns all tokens as an array, it's
 important to note that it must also identify invalid tokens and throw 
 meaningful errors.
 
-The language we'll create is called URY and it's pretty similar to Ruby. In 
-URY, variables are defined as follows
+The language we'll create is called URYB and it's pretty similar to Ruby. In 
+URYB, variables are defined as follows
 
     name = "Mike"
 

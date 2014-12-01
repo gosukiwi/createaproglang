@@ -75,38 +75,11 @@ It's possible to make a language which targets an specific VM, such as the Java
 VM or .NET's CLR. That way you take advantage of the huge effor put in those
 interpreters to make your code fly!
 
-## Meet URYB our toy language
-
-The language we'll create looks pretty much like ruby, but simpler. Let's call
-it _URYB_. Here's how it looks like:
-
-    # comments use hashes
-    a = 2 #assignment
-
-    # function definition
-    def add(a, b)
-        return a + b
-    end
-
-    # conditional
-    if a == 2
-        print "a is 2"
-    end
-
-    # while loop
-    while a < 5
-        a = a + 1
-    end
-
-So far we'll only work on this, we'll add more features later on, feel free to
-change anything you want! That's the point of creating your very own programming
-language!
-
 ## Our First Parser
-Let's get down to bussiness and start writing some code! There are several ways
-to write parsers, each has it's own advantages and disadvantages, for our first
-parser we'll use the easiest to implement, and also the most commonly used, 
-it's called a Recursive Descent Parser, according to Wikipedia:
+Before we dive right in, let's see what we'll build. There are several ways to
+write parsers, each has it's own advantages and disadvantages, for our first
+parser we'll use the easiest to implement, and also the most commonly used, it's
+called a Recursive Descent Parser, according to Wikipedia:
 
  > In computer science, a recursive descent parser is a kind of top-down
  > parser built from a set of mutually recursive procedures (or a 
@@ -114,29 +87,14 @@ it's called a Recursive Descent Parser, according to Wikipedia:
  > of the production rules of the grammar. Thus the structure of the resulting
  > program closely mirrors that of the grammar it recognizes.
 
-Summing it up, a Recursive Descent Parser is just a bunch of functions which
-might call themselves, and each function is in charge of recognizing a rule in a
-special type of grammar called LL(1). Don't worry much about the grammars, allo
-you should know is that there are several types of grammars.
+Summing it up, a grammar is just a set of rules which describe the syntax or a
+language; A Recursive Descent Parser is bunch of functions which might call
+themselves, and each function is in charge of recognizing a rule in a that of
+grammar. 
 
-### LL(1) Grammars
-As stated earlier, recursive descent parsers can only parse a subset of context
-free grammars, called LL(1) Grammars, they are just grammars which limit the
-format of the rules a bit in order to make it easier to parse.  According to
-[Marc Moreno
-Maza](http://www.csd.uwo.ca/~moreno//CS447/Lectures/Syntax.html/node14.html):
-
-> The first L stands for scanning the input from left to right
-> The second L stands for producing a leftmost derivation
-> And the 1 stands for using one input symbol of lookahead at each step to make parsing action decision.
-> 
-> [...] It can be shown that LL(1) grammars are
->  * Not ambiguous and
->  * Not left-recursive.
-
-There are rules to convert a CF grammar to a LL grammar, so we can parse
-anything a CF grammar can, we just have to adjust the rules. We won't get into
-many theorical details, if you want to know more about grammars you can see
-[Marc Moreno Maza's
+Don't worry much about the grammars, it's good to play around with them and know
+what they are, but it's not really needed for the practical purposes of this
+book. If you want to know more about grammars and the theorical aspect of
+parsing you can see [Marc Moreno Maza's
 document](http://www.csd.uwo.ca/~moreno//CS447/Lectures/Syntax.html/Syntax.html)
 on the matter.
