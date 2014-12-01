@@ -84,12 +84,11 @@ suggest checking it out! It's worth every second you spend learning it.
 
 ## The steps of writing a compiler
 
-Let's jump right into the subject and talk a bit about compilers. What is a 
-compiler? A compiler is just a program which translates the source code of a
-programming language onto another programming language. That might sound 
-silly if you are new to programming but it's actually quite powerful! If 
-compilers didn't exist we would all be writing assembler and worrying about 
-platform specific issues!
+Let's get our feet wet and talk a bit about compilers. What is a compiler? A
+compiler is just a program which translates the source code of a programming
+language onto another programming language. That might sound silly if you are
+new to programming but it's actually quite powerful! If compilers didn't exist
+we would all be writing assembler and worrying about platform specific issues!
 
 Compilers gives us a sweet layer of abstraction level, for example when you 
 program in Ruby or PHP you don't worry about low level stuff such as memory
@@ -103,11 +102,11 @@ compiler used to be hard and lengthy, consuming a lot of resources; Nowadays
 though, it's way easier as there are known tools and algorithms to ease up the
 development of a language.
 
-The process of creating a programming language can be decomposed as follows:
+The process of creating a programming language consists of the following steps:
 
-  * Lexing or Lexical Analysis
-  * Parsing or Semantic Analysis
-  * Interpreting / Code Generation
+  1. Lexing or Lexical Analysis
+  2. Parsing or Semantic Analysis
+  3. Interpreting / Code Generation
 
 You can of course, create your own process and do as you think it's right, but
 this is the way most programming languages are created, and it has quite a lot
