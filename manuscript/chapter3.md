@@ -237,12 +237,12 @@ boilerplate code!
 
 Let's say we add function calls to our language, they look like this
 
-  print("I'm an argument")
+    print("I'm an argument")
 
 Now if we want to assign the return value of a function call to a variable, it
 would look like this
 
-  number = fibonacci(2)
+    number = fibonacci(2)
 
 Remember our parser can assign an expression to the RHS of an assignment, but
 there's a problem with our expression parser, both the function call and the
