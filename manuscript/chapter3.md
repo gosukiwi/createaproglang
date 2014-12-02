@@ -120,10 +120,6 @@ the following parts.
 Okay, now we know what we are looking for! Let's write some tests right into
 `test/parser.js`.
 
-    /* global describe, it */
-    'use strict';
-
-
     describe('Parser', function () {
       var assert    = require('assert');
       var Tokenizer = require('../src/tokenizer.js');
@@ -271,9 +267,7 @@ We use a second token to peek, and now we can differentiate a function call from
 an identifier. The more complex the language construct, the more peek tokens
 you'll need.
 
-I hope you get the idea, here's the working parser code.
-
-    'use strict';
+The boilerplate code for our parser is the following:
 
     /**
      * Main parser, transforms an array of tokens into an AST.
@@ -327,112 +321,10 @@ I hope you get the idea, here's the working parser code.
       }
     };
 
-    // Atom parsing
-    // ---------------------------------------------------------------------------
+You can see the full code [at the GitHub
+repository](https://github.com/gosukiwi/creatingaproglang-src/blob/master/src/parser.js).
+I won't include it here as it would take too much space and it's proper to
+changes! It's better to just see the repo code.
 
-    Parser.prototype.parseString = function () {
-      var result = this.pop('STRING');
-      return result;
-    };
-
-    Parser.prototype.parseNumber = function () {
-      var result = this.pop('NUMBER');
-      return result;
-    };
-
-    Parser.prototype.parseIdentifier = function () {
-      var result = this.pop('IDENTIFIER');
-      return result;
-    };
-
-    // Expression parsing
-    // ---------------------------------------------------------------------------
-
-    /**
-     * Parse a list of arguments a function call can have
-     * <expression> <comma> <expression> [...]
-     */
-    Parser.prototype.parseCallArgumentList = function () {
-      var result = [];
-      while(this.peek().NAME !== 'PARENS_CLOSE') {
-        result.push(this.parseExpression());
-        // Are we done yet? no? Consume a comma and wait for more arguments
-        if(this.peek().NAME !== 'PARENS_CLOSE') {
-          this.pop('COMMA');
-        }
-      }
-      return result;
-    };
-
-    /**
-     * Parse a function call.
-     * <t:identifier>(<argument_list>)<t:newline>
-     */
-    Parser.prototype.parseFunctionCall = function () {
-      var name = this.pop('IDENTIFIER');
-      this.pop('PARENS_OPEN');
-      var args = this.parseCallArgumentList();
-      this.pop('PARENS_CLOSE');
-      this.consumeNewlines();
-      return { NAME: 'FUNCTION_CALL', FUNCTION_NAME: name, ARGUMENTS: args };
-    };
-
-    /**
-     * Parses an expression.
-     * <function_call>
-     * <array_value>
-     * <string>
-     * <number>
-     */
-    Parser.prototype.parseExpression = function () {
-      var first  = this.peek();
-      var second = this.tokens[1];
-      switch(first.NAME) {
-        case 'IDENTIFIER':
-          if(second.NAME === 'PARENS_OPEN') {
-            return this.parseFunctionCall();
-          }
-          return this.parseIdentifier();
-        case 'STRING':
-          return this.parseString();
-        case 'NUMBER':
-          return this.parseNumber();
-        default:
-          throw 'Could not parse expression, invalid token ' + first.NAME;
-      }
-    };
-
-    // Statements
-    // ---------------------------------------------------------------------------
-
-    /**
-     * Parse assignment.
-     * <t:identifier> <t:equal> <expression>
-     */
-    Parser.prototype.parseAssign = function () {
-      var identifier = this.pop('IDENTIFIER');
-      this.pop('EQUAL');
-      var exp = this.parseExpression();
-      this.consumeNewlines();
-      return { NAME: 'ASSIGNMENT', LHS: identifier, RHS: exp };
-    };
-
-    /**
-     * Parses a statement
-     */
-    Parser.prototype.parseStatement = function () {
-      var first  = this.peek();
-      var second = this.tokens[1];
-      switch(first.NAME) {
-        case 'IDENTIFIER':
-          if(second.NAME === 'PARENS_OPEN') {
-            return this.parseFunctionCall();
-          }
-          return this.parseAssign();
-        default:
-          throw 'Invalid token';
-      }
-    };
-
-It's a lot, I know, but the idea is still the same, simply use functions which
-match grammar rules.
+## Adding features
+Let's add support for the `if` statement. First of all, by writing tests.
