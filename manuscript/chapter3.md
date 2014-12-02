@@ -321,10 +321,12 @@ The boilerplate code for our parser is the following:
       }
     };
 
-You can see the full code [at the GitHub
-repository](https://github.com/gosukiwi/creatingaproglang-src/blob/master/src/parser.js).
-I won't include it here as it would take too much space and it's proper to
-changes! It's better to just see the repo code.
+You can see the full code [in this
+gist](https://gist.github.com/gosukiwi/ad33a3084088ca81c09e), remember you
+always can see the final version [at the GitHub
+repository](https://github.com/gosukiwi/creatingaproglang-src/blob/master/src/parser.js)
+and you can navigate though all different _tags_ (versions) and see how our
+parser progresses. This code corresponds to version `v0.1`.
 
 ## Adding features
 Let's add support for the `if` statement. First of all, by writing tests.
