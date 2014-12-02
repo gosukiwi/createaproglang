@@ -323,9 +323,9 @@ The boilerplate code for our parser is the following:
 
 You can see the full code [in this
 gist](https://gist.github.com/gosukiwi/ad33a3084088ca81c09e), remember you
-always can see the final version [at the GitHub
+always can see the full source code [at the GitHub
 repository](https://github.com/gosukiwi/creatingaproglang-src/blob/master/src/parser.js)
-and you can navigate though all different _tags_ (versions) and see how our
+and you can navigate though all different _versions_ (tags) and see how our
 parser progresses. This code corresponds to version `v0.1`.
 
 ## Adding features
