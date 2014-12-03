@@ -329,4 +329,160 @@ and you can navigate though all different _versions_ (tags) and see how our
 parser progresses. This code corresponds to version `v0.1`.
 
 ## Adding features
-Let's add support for the `if` statement. First of all, by writing tests.
+Let's add support for the `if` statement so you get an idea on how to extend our
+little parser. First of all, by writing tests.
+
+    describe('If statement', function () {
+      it('should work with an expression', function () {
+        assert.deepEqual([{
+          NAME: 'IF',
+          CONDITION: { NAME: 'NUMBER', VALUE: 1 },
+          BLOCK: [{ NAME: 'ASSIGNMENT', LHS: { NAME: 'IDENTIFIER', VALUE: 'a' }, RHS: { NAME: 'STRING', VALUE: 'hello' } }]
+        }], parse('if 1\na = "hello"\nend'));
+      });
+    });
+
+As you can see, it's a pretty simple if the one we are testing, that's because
+we haven't really implemented any operator (`>`, `<`, `+`, `==`, etc). Also we
+haven't implemented parenthesized expressions, but we'll get there! For now,
+let's just make this test pass. We'll need to parse the input:
+
+    if 1
+      a = "hello"
+    end
+
+Let's get started by adding an extra condition to the Statement parser, as the
+`if` is an statement afterall.
+
+
+    /**
+     * Parses a statement
+     */
+    Parser.prototype.parseStatement = function () {
+      var first  = this.peek();
+      var second = this.tokens[1];
+      switch(first.NAME) {
+        case 'IDENTIFIER':
+          if(second.NAME === 'PARENS_OPEN') {
+            return this.parseFunctionCall();
+          }
+          return this.parseAssign();
+        case 'IF':
+          return this.parseIf();
+        default:
+          throw 'Invalid token';
+      }
+    };
+
+We now need to create a `parseIf` function in charge or parsing that statement.
+Note the format of the tokens: <IF> <EXPRESSION> <NEWLINE> <STATEMENTS> <END>
+
+
+    /**
+     * Parses an IF statement.
+     * <if> <expression> <newline>* <statement>* <end>
+     */
+    Parser.prototype.parseIf = function () {
+      this.pop('IF');
+      var condition = this.parseExpression();
+      this.consumeNewlines();
+      // Block of statements to be executed
+      var block = [];
+      // We could have an empty if, so peek for statements
+      while(this.peek().NAME !== 'END') {
+        block.push(this.parseStatement());
+      }
+      this.pop('END');
+      this.consumeNewlines();
+      return { NAME: 'IF', CONDITION: condition, BLOCK: block };
+    };
+
+Pretty straight forward! If you run `mocha test/` now, all tests pass. This is
+looking pretty but our implementation is quite limited, expressions should be
+able to include operators. Let's add some. Before diving into parsers, let's
+define a little helper function which will save us some typing later on:
+
+    /**
+     * Extend strings to support the _inside_ method. This method returns true if
+     * the string is inside of an array.
+     *
+     * "apple".inside(["orange", "banana", "apple"]); // true
+     */
+    String.prototype.inside = function(arr) {
+      var self = this;
+      arr.forEach(function (item) {
+        if(self === item) {
+          return true;
+        }
+      });
+
+      return false;
+    };
+
+That little method will allow us to quickly check if a string is inside an
+array. Let's write a test:
+
+    it('should work with an expression with an operator', function () {
+      assert.deepEqual([{
+        NAME: 'IF',
+        CONDITION: { NAME: 'BINARY_OPERATION', OPERATION: 'AND', LHS: { NAME: 'IDENTIFIER', VALUE: 'a' }, RHS: { NAME: 'IDENTIFIER', VALUE: 'b' } },
+        BLOCK: [{ NAME: 'ASSIGNMENT', LHS: { NAME: 'IDENTIFIER', VALUE: 'a' }, RHS: { NAME: 'STRING', VALUE: 'hello' } }]
+      }], parse('if a and b\na = "hello"\nend'));
+    });
+
+And extend the expression parser:
+
+    Parser.prototype.parseExpression = function () {
+      var first  = this.peek();
+      var second = this.tokens[1];
+      switch(first.NAME) {
+        case 'IDENTIFIER':
+          if(second.NAME === 'PARENS_OPEN') {
+            return this.parseFunctionCall();
+          } else if(second.NAME.inside(['AND', 'OR'])) {
+            return this.paseBinaryOperation();
+          }
+          return this.parseIdentifier();
+        case 'STRING':
+          return this.parseString();
+        case 'NUMBER':
+          return this.parseNumber();
+        default:
+          throw 'Could not parse expression, invalid token ' + first.NAME;
+      }
+    };
+
+Note that I had to add some tokens for that!
+
+    new Token('AND', '^and'),
+    new Token('OR', '^or'),
+
+Now let's create the `parseBinaryOperation` parser.
+
+    Parser.prototype.paseBinaryOperation = function () {
+      var lhs = this.parseIdentifier();
+      var operation = this.pop().NAME;
+      var rhs = this.parseExpression();
+      return { NAME: 'BINARY_OPERATION', OPERATION: operation, LHS: lhs, RHS: rhs };
+    };
+
+The LHS of the operation is always an identifier, the right side can be
+anything. This is a limitation, we can't match an identifier on the LHS because
+it would cause an infite loop. There are ways to get around this, for example,
+we could create a parser which parses basic expressions, and a different which
+parses the same expressions but it's more potent and can also parse binary
+operations, that way we could write
+
+    Parser.prototype.paseBinaryOperation = function () {
+      var lhs = this.weakParser();
+      var operation = this.pop().NAME;
+      var rhs = this.strongParser();
+      return { NAME: 'BINARY_OPERATION', OPERATION: operation, LHS: lhs, RHS: rhs };
+    };
+
+But I think I've proved my point by now. So far this code is `v0.2` and you can
+see the full source code [at the GitHub
+repository](https://github.com/gosukiwi/creatingaproglang-src/tree/v0.2). As you
+can see rolling our own grammar is easy for small languages, like template
+engines and DSLs, but as you need more power, it gets hard and harder to write
+the appropiate parsers. Let's make our lives easier with a _parser geneartor_.
