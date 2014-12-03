@@ -105,7 +105,58 @@ writing it yourself or making some toy grammars to get the hang of it. Once you
 get used to it, it allows you to make complex parsers really quickly!
 
 ## Implementing IF
-Let's implement the `IF` statement yet again.
+Let's implement the `IF` statement yet again. The test is the same as our
+previous test.
+
+    it('should work with an expression', function () {
+      assert.deepEqual([{
+        TYPE: 'IF',
+        CONDITION: { TYPE: 'NUMBER', VALUE: 1 },
+        BODY: [{ TYPE: 'ASSIGNMENT', LHS: { TYPE: 'IDENTIFIER', VALUE: 'a' }, RHS: { TYPE: 'STRING', VALUE: 'hello' } }]
+      }], parse('if 1\na = "hello"\nend'));
+    });
+
+As for the grammar:
+
+    /* ... */ 
+
+    Statement
+        : FunctionDefinition
+            { $$ = $1; }
+        | FunctionCall
+            { $$ = $1; }
+        | If
+            { $$ = $1; }
+        | Assignment
+            { $$ = $1; }
+        ;
+
+    /* ... */
+
+    If
+        : IF Expression NEWLINE OptionalStatementList END
+            { $$ = { TYPE: 'IF', CONDITION: $2, BODY: $4 } }
+        ;
+
+    /* ... */
+
+It greatly helps we already have defined a lot of rules! This makes the test
+pass, but now we'll need to add binary operations! To do this we'll need to
+account for operator precedence. We can choose any order we want, for example,
+[here's Javascript operator precedence
+table](http://msdn.microsoft.com/en-us/library/ie/z3ks45k7(v=vs.94).aspx).
+
+Because we'll compile to Javascript it's useful to have similar precedence. In
+Jison we can set precedence using the `%left` rule, meaning it has left
+precedence. For example
+
+    # given
+    a + b * c
+    # rules
+    %left +
+    %left *
+    # produces
+    (a) + (b * c)
 
 ## Alternatives
 Jison isn't the only parser generator out there, for Javascript there's
