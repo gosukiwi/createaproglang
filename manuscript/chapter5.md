@@ -43,3 +43,11 @@ the JVM, and it's known to be faster than the regular interpreted version.
 I think code generation is a good place to start, let's translate our AST into
 Javascript! That way, once we finished, we would have written our very own
 compiler!
+
+To generate code we'll use the [Visitor
+Pattern](http://www.oodesign.com/visitor-pattern.html), this is a really good
+use case for this pattern, although as we are not using a statically typed
+language we can't really implement interfaces or follow the OO design as
+strictly as Java would, for example, but the overall idea isn't hard at all.
+
+Now there are quite some ways to implement this,
