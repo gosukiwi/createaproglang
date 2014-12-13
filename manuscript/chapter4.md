@@ -147,8 +147,8 @@ account for operator precedence. We can choose any order we want, for example,
 table](http://msdn.microsoft.com/en-us/library/ie/z3ks45k7(v=vs.94).aspx).
 
 Because we'll compile to Javascript it's useful to have similar precedence. In
-Jison we can set precedence using the `%left` rule, meaning it has left
-precedence. For example
+Jison we can set precedence using the `%left` rule, meaning the first rule
+specified has higher precedence than the ones after. For example
 
     # given
     a + b * c
@@ -157,6 +157,13 @@ precedence. For example
     %left *
     # produces
     (a) + (b * c)
+
+### Our URBY parser
+I've worked on our grammar and completed the `If` statement --- which includes
+the using `else` and also the `elsif` case. Another thing this version adds is a
+couple more of binary operations, namely division, multiplication, substraction
+and addition. You can see the source code at the github repo as
+[v0.5](https://github.com/gosukiwi/creatingaproglang-src/releases/tag/v0.5).
 
 ## Alternatives
 Jison isn't the only parser generator out there, for Javascript there's
@@ -179,3 +186,11 @@ Some languages such as PHP don't have any parser generator out there as the time
 of this writing, but most languages do, you are just a google search away from
 them if you are interested!
 
+## Exercise
+If you want, a good exercise is to go ahead and implement the `while` statement,
+if you get stuck, I made a
+[v0.6](https://github.com/gosukiwi/creatingaproglang-src/releases/tag/v0.6)
+which contains the source code to implement this feature.
+
+If you feel particularly adventurous you can try to translate our little grammar
+to another tool, such as PEG.js, PLY, or Racc.
