@@ -480,9 +480,18 @@ operations, that way we could write
       return { NAME: 'BINARY_OPERATION', OPERATION: operation, LHS: lhs, RHS: rhs };
     };
 
-But I think I've proved my point by now. So far this code is `v0.2` and you can
-see the full source code [at the GitHub
-repository](https://github.com/gosukiwi/creatingaproglang-src/tree/v0.2). As you
-can see rolling our own grammar is easy for small languages, like template
-engines and DSLs, but as you need more power, it gets hard and harder to write
-the appropiate parsers. Let's make our lives easier with a _parser geneartor_.
+That way we would be changing the rules of our grammar, but this can get out of
+hand quickly and it's really hard to think of a grammar in term of your
+functions. Also, we don't take into account error generation, what if the code
+has a syntax error? This grammar won't give you much info on your error, not
+even a line number. Mainly for those two reasons, we'll learn to use some new
+tools in the next chapter which will make this job a bit easier. So far this
+code is `v0.2` and you can see the full source code [at the GitHub
+repository](https://github.com/gosukiwi/creatingaproglang-src/tree/v0.2). 
+
+## Summary
+
+As you can see rolling our own grammar is easy for small languages, like
+template engines and DSLs, but as you need more power, it gets hard and harder
+to write the appropiate parsers. Let's make our lives easier with a _parser
+geneartor_.

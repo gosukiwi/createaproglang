@@ -40,8 +40,6 @@ interpreters to make your code fly! A good example of this is
 the JVM, and it's known to be faster than the regular interpreted version.
 
 ## Code Generation
-Because we are writing a compiler, once we get our AST we'll translate it into
-another language. This could be any language you want, we'll use Javascript in
-this book as to use a single language along the whole process. It would be a
-good exercise to choose another language and generate the appropiate code, so if
-you feel confident enough you can try that.
+I think code generation is a good place to start, let's translate our AST into
+Javascript! That way, once we finished, we would have written our very own
+compiler!
